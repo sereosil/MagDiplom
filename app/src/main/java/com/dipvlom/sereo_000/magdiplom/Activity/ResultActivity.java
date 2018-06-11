@@ -14,8 +14,11 @@ import android.widget.TextView;
 import com.dipvlom.sereo_000.magdiplom.Adapters.GridFourParamAdapter;
 import com.dipvlom.sereo_000.magdiplom.Adapters.GridThreeParamAdapter;
 import com.dipvlom.sereo_000.magdiplom.Adapters.GridTwoParamAdapter;
+import com.dipvlom.sereo_000.magdiplom.Models.TableElement;
 import com.dipvlom.sereo_000.magdiplom.Models.User;
 import com.dipvlom.sereo_000.magdiplom.R;
+
+import java.util.ArrayList;
 
 public class ResultActivity extends AppCompatActivity {
     public int paramsCount;
@@ -27,6 +30,7 @@ public class ResultActivity extends AppCompatActivity {
     public GridThreeParamAdapter threeParamAdapter;
     public GridFourParamAdapter fourParamAdapter;
     public TextView showDiagramBtn;
+    public ArrayList<TableElement> tableElements = new ArrayList<>();
     public int[][] istTablTwoParams = new int[4][];
     public int[][] istTablThreeParams = new int[8][];
     public int[][] istTablFourParams = new int[16][];
@@ -39,6 +43,13 @@ public class ResultActivity extends AppCompatActivity {
         goBackBtn = findViewById(R.id.go_back_btn);
         resultView = findViewById(R.id.func_result);
         showDiagramBtn = findViewById(R.id.open_diagram_btn);
+        showDiagramBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ResultActivity.this,TableActivity.class);
+                startActivity(intent);
+            }
+        });
         goBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,9 +110,13 @@ public class ResultActivity extends AppCompatActivity {
                 newImplic[countOfImplic]=implic[i];
                 countOfImplic++;
             }
+
         }
-        if(countOfImplic>0)
+        int row = User.getInstance().tableElements.get(User.getInstance().tableElements.size()-1).row+1;
+        if(countOfImplic>0){
+            getTableElementsTwoParams(newImplic,row);
             return newImplic;
+        }
         else
             return implic;
     }
@@ -153,8 +168,11 @@ public class ResultActivity extends AppCompatActivity {
                 countOfImplic++;
             }
         }
-        if(countOfImplic>0)
+        int row = User.getInstance().tableElements.get(User.getInstance().tableElements.size()-1).row+1;
+        if(countOfImplic>0){
+            getTableElementsThreeParams(newImplic,row);
             return newImplic;
+        }
         else
             return implic;
     }
@@ -222,8 +240,11 @@ public class ResultActivity extends AppCompatActivity {
                 countOfImplic++;
             }
         }
-        if(countOfImplic>0)
+        int row = User.getInstance().tableElements.get(User.getInstance().tableElements.size()-1).row+1;
+        if(countOfImplic>0){
+            getTableElementsFourParams(newImplic,row);
             return newImplic;
+        }
         else
             return implic;
     }
@@ -294,7 +315,6 @@ public class ResultActivity extends AppCompatActivity {
         return imnplic;
     }
     public void methodForTwoParams(){
-
         for(int i=0;i<4;i++){
             if(User.getInstance().istTablTwo[i][2]==1){
                 istTablTwoParams[i][2]=User.getInstance().istTablTwo[i][2];
@@ -307,9 +327,11 @@ public class ResultActivity extends AppCompatActivity {
                 istTablTwoParams[i][1]=User.getInstance().istTablTwo[i][1];
                 istTablTwoParams[i][3]=counter;
                 istTablTwoParams[i][4]=0;
+
             }
             counter=0;
         }
+        getTableElementsTwoParams(istTablTwoParams,0);
         istTablTwoParams = sortMassTwoParams(istTablTwoParams);
         istTablTwoParams = makeIterTwoParams(istTablTwoParams);
         if(countOfImplic>1) {
@@ -348,6 +370,7 @@ public class ResultActivity extends AppCompatActivity {
             }
             counter=0;
         }
+        getTableElementsThreeParams(istTablThreeParams,0);
         istTablThreeParams = sortMassThreeParams(istTablThreeParams);
         istTablThreeParams = makeIterThreeParams(istTablThreeParams);
         if(countOfImplic>1) {
@@ -392,9 +415,12 @@ public class ResultActivity extends AppCompatActivity {
                 istTablFourParams[i][3]=User.getInstance().istTablFour[i][3];
                 istTablFourParams[i][5]=counter;
                 istTablFourParams[i][6]=0;
+
             }
             counter=0;
         }
+
+        getTableElementsFourParams(istTablFourParams,0);
         istTablFourParams = sortMassFourParams(istTablFourParams);
         istTablFourParams = makeIterFourParams(istTablFourParams);
         if(countOfImplic>1) {
@@ -874,5 +900,158 @@ public class ResultActivity extends AppCompatActivity {
         istTablThreeParams = new int[8][];
         istTablTwoParams = new int[4][];
         istTablFourParams = new int[16][];
+    }
+    public void getTableElementsTwoParams(int [][] implic, int row){
+
+        String tempStringTable = null;
+        TableElement tableElement = new TableElement();
+        for(int i=0;i<implic.length;i++){
+            tableElement.parents="";
+            if (implic[i][0] == 0) {
+                tempStringTable += "!X1";
+                //resultView.setText(resultView.getText().toString()+"!X1");
+            }
+            if (implic[i][0] == 1) {
+                tempStringTable += "X1";
+                // resultView.setText(resultView.getText().toString()+"X1");
+            }
+            if (implic[i][1] == 0) {
+                tempStringTable += "!X2";
+                //resultView.setText(resultView.getText().toString()+"!X2");
+            }
+            if (implic[i][1] == 1) {
+                tempStringTable += "X2";
+                // resultView.setText(resultView.getText().toString()+"X2");
+            }
+            if(row>0){
+                tableElement.parents+="Склеены: ";
+                for(int j=0;j<User.getInstance().tableElements.size();j++){
+                        if(User.getInstance().tableElements.get(j).row==row-1){
+                            if(implic[i][0]==User.getInstance().tableElements.get(j).formula[0]||implic[i][1]==User.getInstance().tableElements.get(j).formula[1]){
+                                tableElement.parents +=String.valueOf(User.getInstance().tableElements.get(j).id)+" ";
+                            }
+                        }
+                }
+            }
+            tableElement.name = tempStringTable;
+            tableElement.id = User.getInstance().tableElements.size();
+            tableElement.row = row;
+            tableElement.formula[0] = implic[i][0];
+            tableElement.formula[1] = implic[i][1];
+            tempStringTable = "";
+            User.getInstance().tableElements.add(tableElement);
+        }
+    }
+    public void getTableElementsThreeParams(int [][] implic, int row){
+
+        String tempStringTable = null;
+        TableElement tableElement = new TableElement();
+        for(int i=0;i<implic.length;i++){
+            tableElement.parents="";
+            if (implic[i][0] == 0) {
+                tempStringTable += "!X1";
+                //resultView.setText(resultView.getText().toString()+"!X1");
+            }
+            if (implic[i][0] == 1) {
+                tempStringTable += "X1";
+                // resultView.setText(resultView.getText().toString()+"X1");
+            }
+            if (implic[i][1] == 0) {
+                tempStringTable += "!X2";
+                //resultView.setText(resultView.getText().toString()+"!X2");
+            }
+            if (implic[i][1] == 1) {
+                tempStringTable += "X2";
+                // resultView.setText(resultView.getText().toString()+"X2");
+            }
+            if(implic[i][2]==0){
+                tempStringTable+="!X3";
+                //resultView.setText(resultView.getText().toString()+"!X2");
+            }
+            if(implic[i][2]==1){
+                tempStringTable+="X3";
+                // resultView.setText(resultView.getText().toString()+"X2");
+            }
+            if(row>0){
+                tableElement.parents+="Склеены: ";
+                for(int j=0;j<User.getInstance().tableElements.size();j++){
+                    if(User.getInstance().tableElements.get(j).row==row-1){
+                        if((implic[i][0]==User.getInstance().tableElements.get(j).formula[0]&&implic[i][1]==User.getInstance().tableElements.get(j).formula[1])||(implic[i][0]==User.getInstance().tableElements.get(j).formula[0]&&implic[i][2]==User.getInstance().tableElements.get(j).formula[2])||(implic[i][1]==User.getInstance().tableElements.get(j).formula[1]&&implic[i][2]==User.getInstance().tableElements.get(j).formula[2])){
+                            tableElement.parents +=String.valueOf(User.getInstance().tableElements.get(j).id)+" ";
+                        }
+                    }
+                }
+            }
+            tableElement.name = tempStringTable;
+            tableElement.id = User.getInstance().tableElements.size();
+            tableElement.row = row;
+            tableElement.formula[0] = implic[i][0];
+            tableElement.formula[1] = implic[i][1];
+            tableElement.formula[2] = implic[i][2];
+            tempStringTable = "";
+            User.getInstance().tableElements.add(tableElement);
+        }
+    }
+    public void getTableElementsFourParams(int [][] implic, int row){
+
+        String tempStringTable = null;
+        TableElement tableElement = new TableElement();
+        for(int i=0;i<implic.length;i++){
+            tableElement.parents="";
+            if (implic[i][0] == 0) {
+                tempStringTable += "!X1";
+                //resultView.setText(resultView.getText().toString()+"!X1");
+            }
+            if (implic[i][0] == 1) {
+                tempStringTable += "X1";
+                // resultView.setText(resultView.getText().toString()+"X1");
+            }
+            if (implic[i][1] == 0) {
+                tempStringTable += "!X2";
+                //resultView.setText(resultView.getText().toString()+"!X2");
+            }
+            if (implic[i][1] == 1) {
+                tempStringTable += "X2";
+                // resultView.setText(resultView.getText().toString()+"X2");
+            }
+            if(implic[i][2]==0){
+                tempStringTable+="!X3";
+                //resultView.setText(resultView.getText().toString()+"!X2");
+            }
+            if(implic[i][2]==1){
+                tempStringTable+="X3";
+                // resultView.setText(resultView.getText().toString()+"X2");
+            }
+            if(implic[i][3]==0){
+                tempStringTable+="!X4";
+                //resultView.setText(resultView.getText().toString()+"!X2");
+            }
+            if(implic[i][3]==1){
+                tempStringTable+="X4";
+                // resultView.setText(resultView.getText().toString()+"X2");
+            }
+            if(row>0){
+                tableElement.parents+="Склеены: ";
+                for(int j=0;j<User.getInstance().tableElements.size();j++){
+                    if(User.getInstance().tableElements.get(j).row==row-1){
+                        if((implic[i][0]==User.getInstance().tableElements.get(j).formula[0]&&implic[i][1]==User.getInstance().tableElements.get(j).formula[1]&&implic[i][2]==User.getInstance().tableElements.get(j).formula[2])
+                                ||(implic[i][0]==User.getInstance().tableElements.get(j).formula[0]&&implic[i][3]==User.getInstance().tableElements.get(j).formula[3]&&implic[i][2]==User.getInstance().tableElements.get(j).formula[2])
+                                ||(implic[i][0]==User.getInstance().tableElements.get(j).formula[0]&&implic[i][1]==User.getInstance().tableElements.get(j).formula[1]&&implic[i][3]==User.getInstance().tableElements.get(j).formula[3])
+                                ||(implic[i][1]==User.getInstance().tableElements.get(j).formula[1]&&implic[i][2]==User.getInstance().tableElements.get(j).formula[2]&&implic[i][3]==User.getInstance().tableElements.get(j).formula[3])){
+                            tableElement.parents +=String.valueOf(User.getInstance().tableElements.get(j).id)+" ";
+                        }
+                    }
+                }
+            }
+            tableElement.name = tempStringTable;
+            tableElement.id = User.getInstance().tableElements.size();
+            tableElement.row = row;
+            tableElement.formula[0] = implic[i][0];
+            tableElement.formula[1] = implic[i][1];
+            tableElement.formula[2] = implic[i][2];
+            tableElement.formula[3] = implic[i][3];
+            tempStringTable = "";
+            User.getInstance().tableElements.add(tableElement);
+        }
     }
 }

@@ -65,6 +65,7 @@ public class User {
     public List<CarnoElement> carnoElementsTwo = new ArrayList<>();
     public List<CarnoElement> carnoElementsThree = new ArrayList<>();
     public List<CarnoElement> carnoElementsFour = new ArrayList<>();
+    public List<TableElement> tableElements = new ArrayList<>();
     public boolean method;
     public int paramsCount;
     static public User getInstance() {

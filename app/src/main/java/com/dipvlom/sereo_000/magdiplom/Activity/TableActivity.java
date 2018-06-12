@@ -33,14 +33,14 @@ public class TableActivity extends AppCompatActivity {
                 if (User.getInstance().tableElements.get(j).row == i) {
                     final LinearLayout layCustomer = new LinearLayout(this);
                     layCustomer.setOrientation(LinearLayout.VERTICAL);
-                    layCustomer.setPadding(0, 10, 0, 10);
+                    layCustomer.setPadding(10, 10, 10, 10);
                     layCustomer.setBackgroundColor(Color.parseColor("#f8f8f8"));
 
                     final TextView tv3 = new TextView(this);
 
                         tv3.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
                                 TableRow.LayoutParams.MATCH_PARENT));
-                        tv3.setPadding(5, 0, 0, 5);
+                        tv3.setPadding(5, 5, 5, 5);
                     tv3.setGravity(Gravity.TOP);
                     tv3.setBackgroundColor(Color.parseColor("#f8f8f8"));
                     tv3.setTextColor(Color.parseColor("#000000"));
@@ -50,10 +50,10 @@ public class TableActivity extends AppCompatActivity {
                         tv3b.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,
                                 TableRow.LayoutParams.WRAP_CONTENT));
                         tv3b.setGravity(Gravity.RIGHT);
-                        tv3b.setPadding(5, 1, 0, 5);
+                        tv3b.setPadding(5, 5, 5, 5);
                         tv3b.setTextColor(Color.parseColor("#aaaaaa"));
                         tv3b.setBackgroundColor(Color.parseColor("#f8f8f8"));
-                        tv3b.setText(User.getInstance().tableElements.get(j).parents);
+                        tv3b.setText("Номер: "+User.getInstance().tableElements.get(j).id+"\n"+User.getInstance().tableElements.get(j).parents);
                         layCustomer.addView(tv3b);
                         tr.addView(layCustomer);
                 }

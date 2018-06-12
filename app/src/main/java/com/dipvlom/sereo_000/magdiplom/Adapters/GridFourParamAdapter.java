@@ -1,6 +1,7 @@
 package com.dipvlom.sereo_000.magdiplom.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,7 @@ public class GridFourParamAdapter extends BaseAdapter {
 
         view.setBackgroundColor(User.getInstance().carnoElementsFour.get(position).color);
         ((TextView) view.findViewById(R.id.func_value)).setText(User.getInstance().carnoElementsFour.get(position).value);
+        ((TextView) view.findViewById(R.id.func_value)).setTextColor(Color.BLACK);
 
 
         return view;

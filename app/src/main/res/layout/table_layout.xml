@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
+    <HorizontalScrollView
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
     <TableLayout
     android:id="@+id/tableInvoices"
     android:layout_width="match_parent"
@@ -13,6 +13,6 @@
     android:stretchColumns="*">
 
 </TableLayout>
-    </ScrollView>
+    </HorizontalScrollView>
 
 </LinearLayout>

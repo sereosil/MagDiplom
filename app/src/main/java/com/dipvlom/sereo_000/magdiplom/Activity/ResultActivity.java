@@ -1213,19 +1213,25 @@ public class ResultActivity extends AppCompatActivity {
                         implic.remove(j);
                     }
                 }
-                if(implic.get(i).element[1]==2){
-                    if(implic.get(i).element[0]==implic.get(j).element[0]&&implic.get(i).element[2]==implic.get(j).element[2]&&implic.get(i).element[3]==implic.get(j).element[3]&&i!=j){
-                        implic.remove(j);
+                else {
+                    if (implic.get(i).element[1] == 2) {
+                        if (implic.get(i).element[0] == implic.get(j).element[0] && implic.get(i).element[2] == implic.get(j).element[2] && implic.get(i).element[3] == implic.get(j).element[3] && i != j) {
+                            implic.remove(j);
+                        }
                     }
-                }
-                if(implic.get(i).element[2]==2){
-                    if(implic.get(i).element[1]==implic.get(j).element[1]&&implic.get(i).element[0]==implic.get(j).element[0]&&implic.get(i).element[3]==implic.get(j).element[3]&&i!=j){
-                        implic.remove(j);
-                    }
-                }
-                if(implic.get(i).element[3]==2){
-                    if(implic.get(i).element[1]==implic.get(j).element[1]&&implic.get(i).element[2]==implic.get(j).element[2]&&implic.get(i).element[0]==implic.get(j).element[0]&&i!=j){
-                        implic.remove(j);
+                    else {
+                        if (implic.get(i).element[2] == 2) {
+                            if (implic.get(i).element[1] == implic.get(j).element[1] && implic.get(i).element[0] == implic.get(j).element[0] && implic.get(i).element[3] == implic.get(j).element[3] && i != j) {
+                                implic.remove(j);
+                            }
+                        }
+                        else {
+                            if (implic.get(i).element[3] == 2) {
+                                if (implic.get(i).element[1] == implic.get(j).element[1] && implic.get(i).element[2] == implic.get(j).element[2] && implic.get(i).element[0] == implic.get(j).element[0] && i != j) {
+                                    implic.remove(j);
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1355,16 +1361,21 @@ public class ResultActivity extends AppCompatActivity {
                         implic.remove(j);
                     }
                 }
-                if(implic.get(i).element[1]==2){
-                    if(implic.get(i).element[0]==implic.get(j).element[0]&&implic.get(i).element[2]==implic.get(j).element[2]&&i!=j){
-                        implic.remove(j);
+                else {
+                    if (implic.get(i).element[1] == 2) {
+                        if (implic.get(i).element[0] == implic.get(j).element[0] && implic.get(i).element[2] == implic.get(j).element[2] && i != j) {
+                            implic.remove(j);
+                        }
+                    }
+                    else {
+                        if(implic.get(i).element[2]==2){
+                            if(implic.get(i).element[1]==implic.get(j).element[1]&&implic.get(i).element[0]==implic.get(j).element[0]&&i!=j){
+                                implic.remove(j);
+                            }
+                        }
                     }
                 }
-                if(implic.get(i).element[2]==2){
-                    if(implic.get(i).element[1]==implic.get(j).element[1]&&implic.get(i).element[0]==implic.get(j).element[0]&&i!=j){
-                        implic.remove(j);
-                    }
-                }
+
 
             }
         }
